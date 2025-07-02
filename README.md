@@ -198,18 +198,15 @@ We welcome contributions! Here's how to get started:
 4. 📤 Push to the branch (`git push origin feature/amazing-feature`)
 5. 🔄 Open a Pull Request
 
-## 📋 Development Roadmap
+<!-- ## 📋 Development Roadmap -->
 
-- [ ] Private messaging
-- [ ] File sharing
-- [ ] Message reactions
-- [ ] User profiles
-- [ ] Room moderation
-- [ ] Mobile app
+<!-- - [ ] Private messaging -->
+<!-- - [ ] File sharing -->
+<!-- - [ ] Message reactions -->
+<!-- - [ ] User profiles -->
+<!-- - [ ] Room moderation -->
+<!-- - [ ] Mobile app -->
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
