@@ -1,175 +1,219 @@
-Chat Application
-This is a real-time chat application built with a Spring Boot backend and an Angular frontend. The application allows users to sign up, log in, create chat rooms, join rooms, and send/receive messages in real-time using WebSocket communication. It includes JWT-based authentication for secure access and a responsive UI with toast notifications for user feedback.
-Project Structure
+# 💬 Real-Time Chat Application
 
-Backend: A Spring Boot application handling authentication, room management, and WebSocket-based chat functionality.
-Located in Backend/ChatDemo/.
-Uses Spring Web, Spring Security, Spring WebSocket, and JPA for data persistence.
+A modern, full-stack chat application built with Spring Boot and Angular, featuring real-time messaging, JWT authentication, and a responsive user interface.
 
+## ✨ Features
 
-Frontend: An Angular application providing the user interface for login, signup, room creation, and chat.
-Located in Frontend/chatroonmClient/.
-Uses Angular Router, services, and components, with SweetAlert2 for notifications and WebSocket for real-time messaging.
+- 🔐 **Secure Authentication** - JWT-based signup and login
+- 🏠 **Room Management** - Create and join chat rooms
+- ⚡ **Real-Time Messaging** - WebSocket-powered instant communication
+- 🔍 **Room Search** - Find and join existing rooms
+- 📱 **Responsive Design** - Works seamlessly across devices
+- 🔔 **Toast Notifications** - User-friendly success/error messages
+- ⏰ **Message Timestamps** - Formatted date and time display
 
+## 🏗️ Architecture
 
+### Backend
+- **Framework**: Spring Boot 3.x
+- **Location**: `Backend/ChatDemo/`
+- **Key Technologies**:
+  - Spring Security (JWT authentication)
+  - Spring WebSocket (real-time messaging)
+  - Spring Data JPA (database persistence)
+  - Maven (dependency management)
 
-Features
+### Frontend
+- **Framework**: Angular 19+
+- **Location**: `Frontend/chatroomClient/`
+- **Key Technologies**:
+  - Angular Router & Services
+  - SweetAlert2 (notifications)
+  - WebSocket client
+  - Tailwind CSS (styling)
 
-User authentication (signup/login) with JWT.
-Create and join chat rooms.
-Real-time messaging using WebSocket.
-Responsive UI with toast notifications (success/error) for user actions.
-Search functionality for rooms.
-Date-time formatting for messages.
-Secure API endpoints with CORS and JWT filters.
+## 🛠️ Prerequisites
 
-Prerequisites
-To run the application, ensure you have the following installed:
+### Backend Requirements
+- ☕ Java 17 or higher
+- 📦 Maven 3.6+
+- 🗄️ Database (MySQL, PostgreSQL, or H2)
 
-Backend:
-Java 17 or higher
-Maven 3.6+
-A relational database (e.g., MySQL, PostgreSQL, or H2 for testing)
+### Frontend Requirements
+- 🟢 Node.js 16+
+- 📋 Angular CLI 19+
 
+### General Requirements
+- 🌐 Git
+- 🔍 Modern web browser
 
-Frontend:
-Node.js 16+ (with npm)
-Angular CLI 19+
+## 🚀 Quick Start
 
-
-General:
-Git
-A modern web browser
-
-
-
-Setup Instructions
-Backend Setup
-
-Clone the Repository:
+### 1. Clone the Repository
+```bash
 git clone <repository-url>
+cd <project-directory>
+```
+
+### 2. Backend Setup
+
+#### Configure Database
+```bash
 cd Backend/ChatDemo
+cp src/main/resources/application.example.properties src/main/resources/application.properties
+```
 
-
-Configure Database:
-
-Copy src/main/resources/application.example.properties to application.properties.
-Update application.properties with your database configuration (e.g., URL, username, password).spring.datasource.url=jdbc:mysql://localhost:3306/chatdb
+Update `application.properties`:
+```properties
+# Database Configuration
+spring.datasource.url=jdbc:mysql://localhost:3306/chatdb
 spring.datasource.username=your-username
 spring.datasource.password=your-password
 spring.jpa.hibernate.ddl-auto=update
 
+# JWT Configuration
+jwt.secret=your-secure-secret-key
+```
 
-
-
-Configure JWT Secret:
-
-Ensure a secure JWT secret is set in application.properties:jwt.secret=your-secure-secret-key
-
-
-
-
-Build and Run:
+#### Build and Run
+```bash
 mvn clean install
 mvn spring-boot:run
+```
+🌐 Backend runs on: `http://localhost:9090`
 
+### 3. Frontend Setup
 
-The backend will run on http://localhost:9090 (default).
-
-
-
-Frontend Setup
-
-Navigate to Frontend Directory:
-cd Frontend/chatroonmClient
-
-
-Install Dependencies:
+#### Install Dependencies
+```bash
+cd Frontend/chatroomClient
 npm install
+```
 
-
-Configure Environment:
-
-Update src/environments/environment.ts and environment.development.ts with the backend API URL:export const environment = {
+#### Configure Environment
+Update `src/environments/environment.ts`:
+```typescript
+export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080',
+  apiUrl: 'http://localhost:9090'
 };
+```
 
-
-
-
-Run the Angular App:
+#### Start Development Server
+```bash
 ng serve
+```
+🌐 Frontend runs on: `http://localhost:4200`
 
+## 📖 Usage Guide
 
-The frontend will run on http://localhost:4200 (default).
+### Getting Started
+1. 📝 **Sign Up** - Create your account at `/signup`
+2. 🔑 **Log In** - Authenticate at `/login`
+3. 🏠 **Home Page** - Access the main dashboard
 
+### Chat Features
+1. ➕ **Create Room** - Click "Create Room" button (`/room/create`)
+2. 🔍 **Find Rooms** - Use the search bar to discover rooms
+3. 💬 **Start Chatting** - Join rooms and send real-time messages
+4. 🔔 **Notifications** - Receive toast alerts for actions
 
+## 🗂️ Project Structure
 
-Running the Application
+```
+📦 Project Root
+├── 📁 Backend/ChatDemo/
+│   ├── 📁 src/main/java/com/chat/     # Core application logic
+│   ├── 📁 src/main/resources/         # Configuration files
+│   └── 📄 pom.xml                     # Maven configuration
+│
+└── 📁 Frontend/chatroomClient/
+    ├── 📁 src/app/                    # Angular components & services
+    ├── 📁 src/environments/           # Environment configs
+    ├── 📄 angular.json                # Angular configuration
+    └── 📄 package.json                # NPM dependencies
+```
 
-Start the backend server (mvn spring-boot:run).
-Start the frontend server (ng serve).
-Open http://localhost:4200 in your browser.
-Sign up or log in to access the chat features.
+## 🔧 Key Components
 
-Usage
+### Backend Components
+- **Controllers**: Handle HTTP requests and WebSocket connections
+- **Services**: Business logic and data processing
+- **Entities**: Database models
+- **Security**: JWT authentication and CORS configuration
 
-Sign Up: Create a new account using the signup page (/signup).
-Log In: Authenticate using the login page (/login).
-Create Room: Navigate to the home page, click the "Create Room" button to create a new chat room (/room/create).
-Join Room: Use the search bar to find and join existing rooms.
-Chat: Send and receive real-time messages in the chat window.
-Notifications: Success (e.g., "Joined to Room") and error (e.g., "Failed to Join Room") messages appear as toast notifications in the top-right corner.
+### Frontend Components
+- **Components**: UI elements and pages
+- **Services**: API communication and WebSocket handling
+- **Guards**: Route protection
+- **Pipes**: Data transformation
 
-Technologies Used
+## 🛠️ Troubleshooting
 
-Backend:
-Spring Boot 3.x
-Spring Security (JWT authentication)
-Spring WebSocket (real-time messaging)
-Spring Data JPA (database persistence)
-Maven (dependency management)
+### Common Issues
 
+#### CORS Problems
+✅ **Solution**: Verify `CORSConfig.java` allows `http://localhost:4200`
 
-Frontend:
-Angular 19+
-SweetAlert2 (toast notifications)
-WebSocket (real-time communication)
-Tailwind CSS (styling, assumed based on button styles)
+#### WebSocket Connection Failed
+✅ **Solution**: Check WebSocket endpoint accessibility (`ws://localhost:9090/chat`)
 
+#### Database Connection Error
+✅ **Solution**: Validate `application.properties` database settings
 
-Database: Configurable (MongoDB)
-Other: Git, Node.js, npm
+#### Angular Build Issues
+✅ **Solution**: 
+```bash
+npm cache clean --force
+npm install
+```
 
-Project File Structure
+## 🚀 Production Deployment
 
-Backend/ChatDemo/:
-src/main/java/com/chat/: Core application logic, controllers, services, entities, and utilities.
-src/main/resources/: Configuration files (application.properties).
-pom.xml: Maven dependencies and build configuration.
+### Security Checklist
+- [ ] Use secure JWT secret key
+- [ ] Configure HTTPS
+- [ ] Update CORS settings for production domain
+- [ ] Set up proper database credentials
+- [ ] Enable production mode in Angular
 
+### Environment Configuration
+Update production environment files with actual API URLs and secure configurations.
 
-Frontend/chatroonmClient/:
-src/app/: Angular components, services, models, guards, and pipes.
-src/environments/: Environment configuration.
-angular.json, package.json: Angular project configuration.
+## 🤝 Contributing
 
+We welcome contributions! Here's how to get started:
 
+1. 🍴 Fork the repository
+2. 🌿 Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. 💾 Commit your changes (`git commit -m 'Add amazing feature'`)
+4. 📤 Push to the branch (`git push origin feature/amazing-feature`)
+5. 🔄 Open a Pull Request
 
-Notes
+## 📋 Development Roadmap
 
-Ensure the backend and frontend are running simultaneously for full functionality.
-The routerLink directive is used for navigation in Angular (e.g., <button routerLink="/room/create">).
-WebSocket communication is handled via WebSocketChatConfiguration and WebSocketChatcontroler in the backend, with web-socket.service.ts in the frontend.
-For production, secure the JWT secret and configure HTTPS.
+- [ ] Private messaging
+- [ ] File sharing
+- [ ] Message reactions
+- [ ] User profiles
+- [ ] Room moderation
+- [ ] Mobile app
 
-Troubleshooting
+## 📄 License
 
-CORS Issues: Ensure CORSConfig.java allows requests from http://localhost:4200.
-WebSocket Connection: Verify the WebSocket endpoint (e.g., ws://localhost:8080/chat) is accessible.
-Database Errors: Check application.properties for correct database settings.
-Angular Build Issues: Run npm install again or clear the cache (npm cache clean --force).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Contributing
-Contributions are welcome! Please fork the repository, create a feature branch, and submit a pull request.
+## 🆘 Support
+
+Having issues? Here are some resources:
+
+- 📚 Check the [Troubleshooting](#-troubleshooting) section
+- 🐛 Open an [Issue](../../issues) for bugs
+- 💡 Start a [Discussion](../../discussions) for questions
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the development team</p>
+  <p>⭐ Star this repo if you find it helpful!</p>
+</div>
