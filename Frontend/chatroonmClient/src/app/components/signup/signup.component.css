@@ -1,0 +1,17 @@
+@media (max-width: 640px) {
+    .min-h-screen {
+      min-height: 100vh;
+      padding: 1rem;
+    }
+  }
+  
+  .grid-cols-1.md\\:grid-cols-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  
+  @media (min-width: 768px) {
+    .grid-cols-1.md\\:grid-cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }

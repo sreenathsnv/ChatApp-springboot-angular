@@ -1,0 +1,312 @@
+<div
+  class="flex h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 transition-colors duration-300"
+>
+  <!-- Sidebar -->
+  <div
+    class="w-1/4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-r border-slate-200 dark:border-slate-700 p-6 overflow-y-auto shadow-lg"
+  >
+    <app-search-bar
+      (searchChange)="onSearchChange($event)"
+      (searchSubmit)="onSearchSubmit($event)"
+      (filterChange)="onFilterChange($event)"
+    >
+    </app-search-bar>
+    <button
+      routerLink="/room/create"
+      class="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition mt-2.5 mb-5"
+    >
+      Create Room
+    </button>
+
+    <ng-container *ngIf="searchedRooms.length > 0">
+      <h3 class="text-white text-[2.5vh] mb-2 font-medium">Search Rooms</h3>
+
+      <div *ngFor="let room of searchedRooms" class="mb-6 group">
+        <div
+          (click)="selectRoom(room)"
+          class="p-4 rounded-xl bg-gradient-to-r from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 border border-slate-200 dark:border-slate-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 cursor-pointer"
+        >
+          <h1
+            class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+          >
+            {{ room.roomName }}
+          </h1>
+          <p
+            class="text-slate-600 dark:text-slate-400 text-sm font-variant-small-caps mb-2 leading-relaxed"
+          >
+            {{ room.bio }}
+          </p>
+          <p
+            class="text-slate-700 dark:text-slate-300 text-sm bg-slate-100 dark:bg-slate-600 px-3 py-1 rounded-full"
+          >
+            {{ getMemberNames(room.members) }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+
+    <h3 class="text-white text-[2.5vh] mb-2 font-medium">Joined Rooms</h3>
+
+    <ng-container *ngIf="joinedRooms.length > 0; else NoGroupFallback">
+      <div *ngFor="let room of joinedRooms" class="mb-6 group">
+        <div
+          (click)="selectRoom(room)"
+          class="p-4 rounded-xl bg-gradient-to-r from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 border border-slate-200 dark:border-slate-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 cursor-pointer"
+        >
+          <h1
+            class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+          >
+            {{ room.roomName }}
+          </h1>
+          <p
+            class="text-slate-600 dark:text-slate-400 text-sm font-variant-small-caps mb-2 leading-relaxed"
+          >
+            {{ room.bio }}
+          </p>
+          <p
+            class="text-slate-700 dark:text-slate-300 text-sm bg-slate-100 dark:bg-slate-600 px-3 py-1 rounded-full"
+          >
+            {{ getMemberNames(room.members) }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #NoGroupFallback>
+      <p class="text-sm italic text-gray-500">No rooms available</p>
+    </ng-template>
+
+    <h3 class="text-white text-[2.5vh] mb-2 font-medium">Available Rooms</h3>
+
+    <ng-container *ngIf="availableRooms.length > 0; else NoAvailGroupFallback">
+      <div *ngFor="let room of availableRooms" class="mb-6 group">
+        <div
+          (click)="selectRoom(room)"
+          class="p-4 rounded-xl bg-gradient-to-r from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 border border-slate-200 dark:border-slate-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 cursor-pointer"
+        >
+          <h1
+            class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+          >
+            {{ room.roomName }}
+          </h1>
+          <p
+            class="text-slate-600 dark:text-slate-400 text-sm font-variant-small-caps mb-2 leading-relaxed"
+          >
+            {{ room.bio }}
+          </p>
+          <p
+            class="text-slate-700 dark:text-slate-300 text-sm bg-slate-100 dark:bg-slate-600 px-3 py-1 rounded-full"
+          >
+            {{ getMemberNames(room.members) }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #NoAvailGroupFallback>
+      <p class="text-sm italic text-gray-500">No rooms available</p>
+    </ng-template>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="w-3/4 p-6 flex flex-col">
+    <!-- Chat Header -->
+    <div
+      class="bg-gradient-to-r from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 p-4 rounded-xl border border-slate-200 dark:border-slate-600 flex justify-between items-center mb-4 shadow-sm relative"
+    >
+      <h2
+        class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center"
+      >
+        <div class="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse"></div>
+        {{ chatName }}
+      </h2>
+
+      <!-- Hamburger Menu Button -->
+      <div class="relative">
+        <button
+          (click)="toggleMenu()"
+          class="group relative w-10 h-10 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-600"
+          [class.active]="isMenuOpen"
+        >
+          <!-- Hamburger Icon -->
+          <div class="w-5 h-4 flex flex-col justify-between">
+            <span
+              class="block h-0.5 w-full bg-slate-600 dark:bg-slate-300 rounded-full transition-all duration-300 origin-center"
+              [class.rotate-45]="isMenuOpen"
+              [class.translate-y-1.5]="isMenuOpen"
+            ></span>
+            <span
+              class="block h-0.5 w-full bg-slate-600 dark:bg-slate-300 rounded-full transition-all duration-300"
+              [class.opacity-0]="isMenuOpen"
+            ></span>
+            <span
+              class="block h-0.5 w-full bg-slate-600 dark:bg-slate-300 rounded-full transition-all duration-300 origin-center"
+              [class.-rotate-45]="isMenuOpen"
+              [class.-translate-y-1.5]="isMenuOpen"
+            ></span>
+          </div>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div
+          class="absolute right-0 top-12 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg shadow-lg overflow-hidden transition-all duration-200 z-50"
+          [class.opacity-100]="isMenuOpen"
+          [class.scale-100]="isMenuOpen"
+          [class.opacity-0]="!isMenuOpen"
+          [class.scale-95]="!isMenuOpen"
+          [class.pointer-events-none]="!isMenuOpen"
+        >
+          <!-- Leave Button -->
+          <button
+            (click)="leaveChat(chatName)"
+            class="w-full px-4 py-3 text-left text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-150 flex items-center group"
+          >
+            <svg
+              class="w-4 h-4 mr-3 text-blue-500 group-hover:text-blue-600 transition-colors"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+            <span class="font-medium">Leave Chat</span>
+          </button>
+
+          <!-- Divider -->
+          <div class="border-t border-slate-200 dark:border-slate-600"></div>
+        </div>
+      </div>
+
+      <!-- Backdrop (optional - for mobile) -->
+      <div
+        *ngIf="isMenuOpen"
+        class="fixed inset-0 z-40 md:hidden"
+        (click)="closeMenu()"
+      ></div>
+    </div>
+
+    <!-- Chat Message Area -->
+    <div
+      class="flex-1 overflow-y-auto p-6 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-xl shadow-inner"
+    >
+      <div *ngFor="let message of messages" class="mb-4">
+        <div
+          [ngClass]="
+            message.senderId === currentUserId
+              ? 'flex justify-end'
+              : 'flex justify-start'
+          "
+        >
+          <div
+            [ngClass]="
+              message.senderId === currentUserId
+                ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25'
+                : 'bg-gradient-to-r from-white to-slate-50 dark:from-slate-700 dark:to-slate-600 text-slate-800 dark:text-slate-200 shadow-lg border border-slate-200 dark:border-slate-600'
+            "
+            class="max-w-xs lg:max-w-md p-4 rounded-2xl transform hover:scale-[1.02] transition-all duration-200"
+          >
+            <p class="text-sm leading-relaxed mb-2">{{ message.msg }}</p>
+            <div class="flex items-center justify-end">
+              <span
+                [ngClass]="
+                  message.senderId === currentUserId
+                    ? 'text-blue-100'
+                    : 'text-slate-500 dark:text-slate-400'
+                "
+                class="text-xs flex items-center"
+              >
+                <svg
+                  class="w-3 h-3 mr-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ message.createdAt | dateTimeConverter }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Box and Send Button -->
+
+    <div
+      *ngIf="showChatTools && !isJoinedRoom"
+      class="mt-4 flex items-center bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-600 shadow-lg overflow-hidden"
+    >
+      <button
+        (click)="joinToRoom()"
+        class="w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white py-3 px-6 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:from-emerald-600 hover:to-green-700 transform hover:scale-[1.02] transition-all duration-200 active:scale-[0.98]"
+      >
+        Join
+      </button>
+    </div>
+
+    <div
+      *ngIf="showChatTools && isJoinedRoom"
+      class="mt-4 flex items-center bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-600 shadow-lg overflow-hidden"
+    >
+      <input
+        type="text"
+        [(ngModel)]="newMessage"
+        placeholder="Type a message..."
+        class="flex-1 p-4 bg-transparent text-slate-800 dark:text-slate-200 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-0"
+      />
+      <button
+        (click)="sendMessage()"
+        class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white p-4 transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25 active:scale-95"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 transform hover:scale-110 transition-transform"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Member List for Group Rooms -->
+  <div
+    class="text-sm text-slate-600 dark:bg-slate-800 max-w-xs bg-slate-100 h-max p-3 rounded-lg mt-25"
+  >
+    <h3
+      class="font-semibold text-slate-800 dark:text-slate-200 mb-2 flex items-center"
+    >
+      <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <path
+          d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"
+        />
+      </svg>
+      Members:
+    </h3>
+    <div
+      *ngFor="let member of selectedRoom?.members"
+      class="mt-2 p-2 bg-white dark:bg-slate-600 rounded-md"
+    >
+      <span class="font-semibold text-slate-800 dark:text-slate-200">{{
+        member?.username
+      }}</span>
+      <span class="text-slate-600 dark:text-slate-400"
+        >: {{ member?.bio }}</span
+      >
+    </div>
+  </div>
+</div>

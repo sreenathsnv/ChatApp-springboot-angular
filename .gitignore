@@ -1,0 +1,37 @@
+# Node modules (Angular)
+**/node_modules/
+
+# IDE settings
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Angular build outputs
+dist/
+out-tsc/
+.angular/
+
+# Environment files (optional but recommended)
+*.env
+
+# Spring Boot build files
+target/
+*.log
+
+# Application properties (optional, if secrets are included)
+**/application.properties
+**/application.yml
+
+# Maven wrapper files (optional)
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+
+# Temporary files
+*.class
+*.jar
+*.war
+*.ear
