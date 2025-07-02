@@ -66,14 +66,22 @@ cp src/main/resources/application.example.properties src/main/resources/applicat
 Update `application.properties`:
 ```properties
 # Database Configuration
-spring.datasource.url=jdbc:mysql://localhost:3306/chatdb
-spring.datasource.username=your-username
-spring.datasource.password=your-password
-spring.jpa.hibernate.ddl-auto=update
+spring.application.name=ChatDemo
+
+server.port=9090
+
+spring.data.mongodb.uri=<Your-mongo-uri
+spring.data.mongodb.database=chatdb
+jwt-secret-key=<Your 512byte key>
+jwt.expiration=86400000 
+
+
 
 # JWT Configuration
-jwt.secret=your-secure-secret-key
+jwt-secret-key=your-secure-secret-key
 ```
+
+##### Refer the application.example.properties
 
 #### Build and Run
 ```bash
